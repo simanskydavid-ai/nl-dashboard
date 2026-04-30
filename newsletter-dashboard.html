@@ -83,9 +83,24 @@ td.muted{color:var(--p);opacity:.6}
 <script>
 (function(){
   var K='dm1lSiVBMWFRYWNrRFI=';
+  var TIMEOUT=20*60*1000;
+  var timer;
+  function resetTimer(){
+    clearTimeout(timer);
+    timer=setTimeout(function(){
+      localStorage.removeItem('nl_auth');
+      document.getElementById('pw-overlay').style.display='flex';
+      document.getElementById('pw-in').value='';
+      document.getElementById('pw-err').style.display='none';
+    },TIMEOUT);
+  }
   if(localStorage.getItem('nl_auth')==='1'){
     document.getElementById('pw-overlay').style.display='none';
+    resetTimer();
   }
+  ['mousemove','click','keydown','scroll','touchstart'].forEach(function(e){
+    document.addEventListener(e,resetTimer,true);
+  });
   window.pwCheck=function(){
     var v=document.getElementById('pw-in').value;
     var ok=false;try{ok=(btoa(v)===K);}catch(e){}
@@ -101,7 +116,7 @@ td.muted{color:var(--p);opacity:.6}
 </script>
 <div class="header">
   <div><div class="brand">Ticketportal</div><h1>Newsletter Dashboard</h1></div>
-  <span class="updated">Aktualizováno 30.04.2026 18:49</span>
+  <span class="updated">Aktualizováno 30.04.2026 19:09</span>
 </div>
 <div class="container">
   <div class="dash-hd">
